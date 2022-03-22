@@ -31,8 +31,6 @@ class DriverState extends State<Driver> {
   @override
   Widget build(BuildContext context) {
     final User? firebaseUser = Provider.of<User?>(context);
-    return (firebaseUser != null)
-        ? HomeScreen(title: 'Home')
-        : LoginScreen(title: 'Login');
+    return (firebaseUser != null) ? HomeScreen() : LoginScreen();
   }
 }

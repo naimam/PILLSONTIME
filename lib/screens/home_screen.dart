@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:project/services/auth_service.dart';
+import 'package:project/utils/theme.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key, required this.title}) : super(key: key);
-  final String title;
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -13,10 +12,16 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text('Home'),
+        backgroundColor: AppColors.secondary,
       ),
-      body: const Center(
-        child: Text('Home Screen'),
+      body: Center(
+        child: TextButton(
+          child: Text('sign out'),
+          onPressed: () {
+            AuthService.signOut();
+          },
+        ),
       ),
     );
   }

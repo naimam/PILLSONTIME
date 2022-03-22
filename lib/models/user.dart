@@ -1,28 +1,32 @@
-class User {
-  User({
-    required this.uId,
-    required this.firstName,
-    required this.lastName,
-    required this.registerDate,
-    required this.email,
-    required this.dateOfBirth,
-  });
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-  factory User.fromMap(Map<String, dynamic> data) {
+class User {
+  User(
+      {required this.uId,
+      required this.email,
+      required this.firstName,
+      required this.lastName,
+      required this.registerDate,
+      this.dateOfBirth = 'N/A',
+      this.gender = 'N/A'});
+
+  factory User.fromDocument(DocumentSnapshot data) {
     return User(
       uId: data['uId'],
+      email: data['email'],
       firstName: data["firstName"],
       lastName: data["lastName"],
       registerDate: data["resgisterDate"].toDate(),
-      email: data['email'],
       dateOfBirth: data['dateOfBirth'],
+      gender: data['gender'],
     );
   }
 
   final String uId;
   final String email;
-  final String dateOfBirth;
   final String firstName;
   final String lastName;
   final DateTime registerDate;
+  final String dateOfBirth;
+  final String gender;
 }
