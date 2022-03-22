@@ -281,6 +281,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           child: const Text('Sign up'),
                         ),
                       ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16.0),
+                        child: Divider(),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('Already have an account?',
+                              style: Theme.of(context).textTheme.subtitle2),
+                          const SizedBox(width: 8),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('Sign in'),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
