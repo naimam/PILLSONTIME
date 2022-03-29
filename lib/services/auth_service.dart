@@ -5,6 +5,7 @@ import 'package:project/screens/home_screen.dart';
 import 'package:project/services/database.dart';
 import 'package:project/utils/config.dart';
 import 'package:project/models/user.dart';
+import 'package:project/screens/additional_info_screen.dart';
 
 class AuthService {
   static final firebase.FirebaseAuth _firebaseAuth =
@@ -12,6 +13,39 @@ class AuthService {
   static final GoogleSignIn _googleSignIn = GoogleSignIn(
     clientId: Configurations().googleSignInWebClientId,
   );
+
+  static Future<String> signInWithGoogle(BuildContext context) async {
+    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser!.authentication;
+
+    final firebase.AuthCredential credential =
+        firebase.GoogleAuthProvider.credential(
+            accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+
+    final firebase.UserCredential creds =
+        await _firebaseAuth.signInWithCredential(credential);
+
+    if (creds.additionalUserInfo!.isNewUser) {
+      dynamic additinalUser = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              AdditionalInfoScreen(email: creds.user!.email ?? ''),
+        ),
+      );
+      if (additinalUser == false) {
+        await creds.user!.delete();
+        await _googleSignIn.disconnect();
+        await signOut();
+        return "Google Sign In Cancelled";
+      }
+      if (additinalUser is User) {
+        await Database.addNewUser(additinalUser, creds.user!.uid);
+      }
+    }
+    return "Success";
+  }
 
   static Future<String> signUpWithEmailPassword(
       User user, String password) async {

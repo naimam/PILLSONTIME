@@ -43,9 +43,25 @@ class _LoginScreenState extends State<LoginScreen> {
         });
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(res),
-          duration: Duration(seconds: 3),
+          duration: const Duration(seconds: 3),
         ));
       }
+    }
+  }
+
+  Future<void> _signInWithGoogle(BuildContext context) async {
+    setState(() {
+      _isLoading = true;
+    });
+    String res = await AuthService.signInWithGoogle(context);
+    if (res != 'Success') {
+      setState(() {
+        _isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(res),
+        duration: const Duration(seconds: 3),
+      ));
     }
   }
 
@@ -66,176 +82,172 @@ class _LoginScreenState extends State<LoginScreen> {
       body: (_isLoading)
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
-              child: Column(
-                children: [
-                  //TODO: change name and logo if needed
-                  SizedBox(height: 10),
-                  Container(
-                    height: 120,
-                    width: 120,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('medicine.png'),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    //TODO: change name and logo if needed
+                    Container(
+                      height: 120,
+                      width: 120,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/medicine.png'),
+                        ),
                       ),
                     ),
-                  ),
-                  Text(
-                    'Medicine Reminder',
-                    style: GoogleFonts.cedarvilleCursive(
-                      textStyle: Theme.of(context).textTheme.headline4,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      fontStyle: FontStyle.italic,
+                    Text(
+                      'Medicine Reminder',
+                      style: GoogleFonts.cedarvilleCursive(
+                        textStyle: Theme.of(context).textTheme.headline4,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        fontStyle: FontStyle.italic,
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                    child: Card(
-                      color: AppColors.secondary.withOpacity(0.33),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Form(
-                          key: _formKey,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.only(top: 24, bottom: 24),
-                                child: Text(
-                                  'Login',
-                                  style: TextStyle(
-                                      fontSize: 26,
-                                      fontWeight: FontWeight.w800),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: TextFormField(
-                                  controller: _emailController,
-                                  validator: _emailValidator,
-                                  decoration:
-                                      const InputDecoration(hintText: 'email'),
-                                  keyboardType: TextInputType.emailAddress,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: TextFormField(
-                                  obscureText: _isObscure,
-                                  controller: _passwordController,
-                                  validator: _passwordValidator,
-                                  decoration: InputDecoration(
-                                    hintText: 'password',
-                                    suffixIcon: IconButton(
-                                        icon: Icon(_isObscure
-                                            ? Icons.visibility_off
-                                            : Icons.visibility),
-                                        onPressed: () {
-                                          setState(() {
-                                            _isObscure = !_isObscure;
-                                          });
-                                        }),
-                                  ),
-                                  keyboardType: TextInputType.visiblePassword,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    _signIn();
-                                  },
-                                  child: const Text(
-                                    "Login",
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                      child: Card(
+                        color: AppColors.secondary.withOpacity(0.25),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.only(top: 24, bottom: 24),
+                                  child: Text(
+                                    'Login',
                                     style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                        fontSize: 26,
+                                        fontWeight: FontWeight.w800),
                                   ),
-                                  style: ElevatedButton.styleFrom(
-                                      primary: AppColors.primary,
-                                      onPrimary: Colors.white,
-                                      shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(5.0),
-                                        ),
-                                      ),
-                                      minimumSize:
-                                          Size(double.minPositive, 48)),
                                 ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: TextFormField(
+                                    controller: _emailController,
+                                    validator: _emailValidator,
+                                    decoration: const InputDecoration(
+                                        hintText: 'email'),
+                                    keyboardType: TextInputType.emailAddress,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: TextFormField(
+                                    obscureText: _isObscure,
+                                    controller: _passwordController,
+                                    validator: _passwordValidator,
+                                    decoration: InputDecoration(
+                                      hintText: 'password',
+                                      suffixIcon: IconButton(
+                                          icon: Icon(_isObscure
+                                              ? Icons.visibility_off
+                                              : Icons.visibility),
+                                          onPressed: () {
+                                            setState(() {
+                                              _isObscure = !_isObscure;
+                                            });
+                                          }),
+                                    ),
+                                    keyboardType: TextInputType.visiblePassword,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      _signIn();
+                                    },
+                                    child: const Text(
+                                      "Login",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                                        primary: AppColors.primary,
+                                        onPrimary: Colors.white,
+                                        shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(5.0),
+                                          ),
+                                        ),
+                                        minimumSize:
+                                            const Size(double.minPositive, 48)),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 18),
+                    InkWell(
+                      child: Container(
+                        width: 210,
+                        height: 46,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
+                            color: AppColors.tertiary),
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Container(
+                                height: 30.0,
+                                width: 30.0,
+                                decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                      image:
+                                          AssetImage('assets/google-logo.png'),
+                                      fit: BoxFit.cover),
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                              const Text(
+                                'Sign in with Google',
+                                style: TextStyle(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
                               ),
                             ],
                           ),
                         ),
                       ),
+                      onTap: () async {
+                        await _signInWithGoogle(context);
+                      },
                     ),
-                  ),
-                  InkWell(
-                    child: Container(
-                      width: 210,
-                      height: 46,
-                      margin: const EdgeInsets.only(top: 25),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25),
-                          color: AppColors.tertiary),
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Container(
-                              height: 30.0,
-                              width: 30.0,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                    image: AssetImage('google-logo.png'),
-                                    fit: BoxFit.cover),
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                            const Text(
-                              'Sign in with Google',
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ],
+                    const SizedBox(height: 18),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Don\'t have have an account?',
+                            style: Theme.of(context).textTheme.subtitle2),
+                        const SizedBox(width: 8),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => RegisterScreen()));
+                          },
+                          child: const Text('Create account'),
                         ),
-                      ),
+                      ],
                     ),
-                    onTap: () async {
-                      //TODO: implement google sign in
-                      // signInWithGoogle(model)
-                      //     .then((FirebaseUser user){
-                      //   model.clearAllModels();
-                      //   Navigator.of(context).pushNamedAndRemoveUntil
-                      //     (RouteName.Home, (Route<dynamic> route) => false
-                      //   );}
-                      //   ).catchError((e) => print(e));
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Don\'t have have an account?',
-                          style: Theme.of(context).textTheme.subtitle2),
-                      const SizedBox(width: 8),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => RegisterScreen()));
-                        },
-                        child: const Text('Create account'),
-                      ),
-                    ],
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
     );
