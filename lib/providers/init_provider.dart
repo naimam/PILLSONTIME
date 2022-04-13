@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:project/screens/home_screen.dart';
-import 'package:project/screens/login_screen.dart';
+import 'package:project/screens/home/home_screen.dart';
+import 'package:project/screens/auth/login_screen.dart';
+import 'package:project/screens/home/navbar_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:project/utils/theme.dart';
@@ -31,6 +32,6 @@ class DriverState extends State<Driver> {
   @override
   Widget build(BuildContext context) {
     final User? firebaseUser = Provider.of<User?>(context);
-    return (firebaseUser != null) ? HomeScreen() : LoginScreen();
+    return (firebaseUser != null) ? NavbarScreen() : LoginScreen();
   }
 }

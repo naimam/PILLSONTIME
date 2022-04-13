@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:project/screens/register_screen.dart';
+import 'package:project/screens/auth/register_screen.dart';
 import 'package:project/services/auth_service.dart';
 import 'package:project/utils/theme.dart';
 

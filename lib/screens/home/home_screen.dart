@@ -8,16 +8,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: const Text('Home'),
         backgroundColor: AppColors.secondary,
       ),
       body: Center(
         child: TextButton(
-          child: Text('sign out'),
+          child: const Text('sign out'),
           onPressed: () {
             AuthService.signOut();
           },

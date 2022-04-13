@@ -1,25 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:project/services/auth_service.dart';
 import 'package:project/utils/theme.dart';
 import 'package:intl/intl.dart';
 
-import '../models/user.dart';
+import '../../models/user.dart';
 
-class AdditionalInfoScreen extends StatefulWidget {
-  final String email;
-  const AdditionalInfoScreen({Key? key, required this.email}) : super(key: key);
-
+class RegisterScreen extends StatefulWidget {
   @override
-  _AdditionalInfoScreenState createState() => _AdditionalInfoScreenState();
+  _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _AdditionalInfoScreenState extends State<AdditionalInfoScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _birthdayController = TextEditingController();
   final _sexController = TextEditingController();
   final _dateFormat = DateFormat('yyyy-MM-dd');
+  final _emailRegex = RegExp(
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
   bool _isLoading = false;
+  bool _isObscure = true;
+  bool _isObscure2 = true;
 
   String? _nameValidator(String? value) {
     if (value!.isEmpty) {
@@ -28,8 +33,38 @@ class _AdditionalInfoScreenState extends State<AdditionalInfoScreen> {
     return null;
   }
 
+  String? _emailValidator(String? value) {
+    if (value!.isEmpty) {
+      return 'Email is required';
+    } else if (!_emailRegex.hasMatch(value)) {
+      return 'Email is invalid';
+    }
+    return null;
+  }
+
+  String? _passwordValidator(String? value) {
+    if (value!.isEmpty) {
+      return 'Password is required';
+    } else if (value.length < 6) {
+      return 'Password must be at least 6 characters';
+    }
+    return null;
+  }
+
+  String? _confirmPasswordValidator(String? value) {
+    if (value!.isEmpty) {
+      return 'Confirm password is required';
+    } else if (value != _passwordController.text) {
+      return 'Confirm password must be the same as password';
+    }
+    return null;
+  }
+
   @override
   void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
     _firstNameController.dispose();
     _lastNameController.dispose();
     _birthdayController.dispose();
@@ -89,13 +124,25 @@ class _AdditionalInfoScreenState extends State<AdditionalInfoScreen> {
       }
       User initUser = User(
           uId: '',
-          email: widget.email,
+          email: _emailController.text,
           firstName: _firstNameController.text,
           lastName: _lastNameController.text,
           registerDate: DateTime.now(),
           dateOfBirth: bd,
           gender: currentGender);
-      Navigator.pop(context, initUser);
+      String res = await AuthService.signUpWithEmailPassword(
+          initUser, _passwordController.text);
+      if (res == 'Sign up successful') {
+        Navigator.of(context).pop();
+      } else {
+        setState(() {
+          _isLoading = false;
+        });
+        Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text(res),
+          duration: Duration(seconds: 3),
+        ));
+      }
     }
   }
 
@@ -103,7 +150,7 @@ class _AdditionalInfoScreenState extends State<AdditionalInfoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Need Additional Info'),
+        title: Text('Register'),
         backgroundColor: AppColors.primary,
       ),
       body: (_isLoading)
@@ -119,7 +166,7 @@ class _AdditionalInfoScreenState extends State<AdditionalInfoScreen> {
                       const Padding(
                         padding: EdgeInsets.only(top: 24, bottom: 24),
                         child: Text(
-                          'Please provide additional information',
+                          'Register',
                           style: TextStyle(
                               fontSize: 26, fontWeight: FontWeight.w800),
                         ),
@@ -142,6 +189,57 @@ class _AdditionalInfoScreenState extends State<AdditionalInfoScreen> {
                           decoration:
                               const InputDecoration(hintText: 'last name'),
                           keyboardType: TextInputType.name,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          controller: _emailController,
+                          validator: _emailValidator,
+                          decoration: const InputDecoration(hintText: 'email'),
+                          keyboardType: TextInputType.emailAddress,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          obscureText: _isObscure,
+                          controller: _passwordController,
+                          validator: _passwordValidator,
+                          decoration: InputDecoration(
+                            hintText: 'password',
+                            suffixIcon: IconButton(
+                                icon: Icon(_isObscure2
+                                    ? Icons.visibility_off
+                                    : Icons.visibility),
+                                onPressed: () {
+                                  setState(() {
+                                    _isObscure = !_isObscure;
+                                  });
+                                }),
+                          ),
+                          keyboardType: TextInputType.visiblePassword,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          obscureText: _isObscure2,
+                          controller: _confirmPasswordController,
+                          validator: _confirmPasswordValidator,
+                          decoration: InputDecoration(
+                            hintText: 'confirm password',
+                            suffixIcon: IconButton(
+                                icon: Icon(_isObscure2
+                                    ? Icons.visibility_off
+                                    : Icons.visibility),
+                                onPressed: () {
+                                  setState(() {
+                                    _isObscure2 = !_isObscure2;
+                                  });
+                                }),
+                          ),
+                          keyboardType: TextInputType.visiblePassword,
                         ),
                       ),
                       Padding(
@@ -179,21 +277,27 @@ class _AdditionalInfoScreenState extends State<AdditionalInfoScreen> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ElevatedButton(
-                          onPressed: () {
-                            _signUp();
-                          },
-                          child: const Text('Continue'),
+                          onPressed: _signUp,
+                          child: const Text('Sign up'),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.pop(context, false);
-                          },
-                          child: const Text('Cancel',
-                              style: TextStyle(color: Colors.red)),
-                        ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16.0),
+                        child: Divider(),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('Already have an account?',
+                              style: Theme.of(context).textTheme.subtitle2),
+                          const SizedBox(width: 8),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('Sign in'),
+                          ),
+                        ],
                       ),
                     ],
                   ),
