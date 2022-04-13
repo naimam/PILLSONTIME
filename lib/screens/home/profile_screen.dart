@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/screens/auth/login_screen.dart';
 import 'package:project/screens/auth/register_screen.dart';
 import 'package:project/services/auth_service.dart';
 import 'package:project/utils/theme.dart';
@@ -135,7 +136,7 @@ void signOutDialog(BuildContext context) async {
               onPressed: () async {
                 AuthService.signOut();
                 Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) =>  RegisterScreen()));
+                    MaterialPageRoute(builder: (context) =>  LoginScreen()));
               },
               child: const Text("Yes."),
             ),
