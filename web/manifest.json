@@ -1,6 +1,6 @@
 {
-    "name": "project",
-    "short_name": "project",
+    "name": "Pills on Time",
+    "short_name": "Pills on Time",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

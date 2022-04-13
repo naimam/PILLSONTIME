@@ -86,7 +86,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
-                    //TODO: change name and logo if needed
                     Container(
                       height: 120,
                       width: 120,
@@ -97,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     Text(
-                      'Medicine Reminder',
+                      'Pills on Time',
                       style: GoogleFonts.cedarvilleCursive(
                         textStyle: Theme.of(context).textTheme.headline4,
                         fontSize: 20,

@@ -13,7 +13,7 @@ class InitProvider extends StatelessWidget {
       child: MaterialApp(
         theme: AppTheme().light,
         themeMode: ThemeMode.light,
-        title: 'Flutter Demo',
+        title: 'Pills on Time',
         debugShowCheckedModeBanner: false,
         home: Driver(),
       ),
