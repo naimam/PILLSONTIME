@@ -17,8 +17,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
         title: const Text('Calendar'),
         backgroundColor: AppColors.secondary,
       ),
-      body: Center(
-        child: const Text('Calendar Page'),
+      body: const Center(
+        child: Text('Calendar Page'),
           
         
       ),

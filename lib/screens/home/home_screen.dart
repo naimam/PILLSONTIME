@@ -17,13 +17,8 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('Home'),
         backgroundColor: AppColors.secondary,
       ),
-      body: Center(
-        child: TextButton(
-          child: const Text('sign out'),
-          onPressed: () {
-            AuthService.signOut();
-          },
-        ),
+      body: const Center(
+        child: Text("Welcome home!")
       ),
     );
   }
