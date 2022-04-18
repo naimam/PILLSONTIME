@@ -8,8 +8,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,8 +15,13 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('Home'),
         backgroundColor: AppColors.secondary,
       ),
-      body: const Center(
-        child: Text("Welcome home!")
+      body: const Center(child: Text("Welcome home!")),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Add your onPressed code here!
+        },
+        backgroundColor: AppColors.primary,
+        child: const Icon(Icons.add),
       ),
     );
   }
