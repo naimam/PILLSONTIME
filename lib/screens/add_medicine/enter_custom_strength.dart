@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/screens/add_medicine/select_med_shape.dart';
 import 'package:project/utils/theme.dart';
 import 'package:project/models/med_options.dart';
 import 'package:chips_choice_null_safety/chips_choice_null_safety.dart';
@@ -16,7 +17,7 @@ class EnterCustomStrengthScreen extends StatefulWidget {
 class _EnterCustomStrengthScreenState extends State<EnterCustomStrengthScreen> {
   bool _showNext = false;
   final TextEditingController _StrengthController = TextEditingController();
-  int measurement = 0;
+  int strength_unit_id = 0;
 
   @override
   void initState() {
@@ -87,10 +88,10 @@ class _EnterCustomStrengthScreenState extends State<EnterCustomStrengthScreen> {
                   height: 16,
                 ),
                 ChipsChoice<int>.single(
-                  value: measurement,
-                  onChanged: (val) => setState(() => measurement = val),
+                  value: strength_unit_id,
+                  onChanged: (val) => setState(() => strength_unit_id = val),
                   choiceItems: C2Choice.listFrom<int, String>(
-                    source: MedStrenght.List,
+                    source: MedStrength.List,
                     value: (i, v) => i,
                     label: (i, v) => v,
                   ),
@@ -113,7 +114,20 @@ class _EnterCustomStrengthScreenState extends State<EnterCustomStrengthScreen> {
       floatingActionButton: Visibility(
         visible: _showNext,
         child: FloatingActionButton.extended(
-          onPressed: () {},
+          onPressed: () {
+            String form_strength = _StrengthController.text +
+                " " +
+                MedStrength.List[strength_unit_id] +
+                " " +
+                widget.med_form;
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => SelectMedShapeScreen(
+                        rxcui: "",
+                        med_name: widget.med_name,
+                        med_form_strength: form_strength)));
+          },
           label: const Text('Next'),
         ),
       ),

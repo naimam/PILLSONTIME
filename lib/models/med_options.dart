@@ -14,7 +14,7 @@ abstract class MedForm {
   ];
 }
 
-abstract class MedStrenght {
+abstract class MedStrength {
   static const List = [
     "mg",
     "mcg",

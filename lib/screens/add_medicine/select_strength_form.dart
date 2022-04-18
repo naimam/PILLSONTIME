@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/screens/add_medicine/select_med_shape.dart';
 import 'package:project/utils/theme.dart';
 
 class SelectStrengthFormScreen extends StatefulWidget {
@@ -49,8 +50,15 @@ class _SelectStrengthFormScreenState extends State<SelectStrengthFormScreen> {
                 itemBuilder: (context, int index) {
                   return GestureDetector(
                     onTap: () {
-                      print(widget.forms[index]);
-                      print(widget.rxcuis[index]);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SelectMedShapeScreen(
+                                  rxcui: widget.rxcuis[index],
+                                  med_name: widget.med_name,
+                                  med_form_strength: widget.forms[index],
+                                )),
+                      );
                     },
                     child: Container(
                       margin: const EdgeInsets.all(10.0),
