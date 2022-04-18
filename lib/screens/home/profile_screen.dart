@@ -8,7 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({ Key? key }) : super(key: key);
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -27,22 +27,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile', style: TextStyle(color: Colors.white)),
-
+        title: const Text('Profile'),
         backgroundColor: AppColors.secondary,
-      
-      actions: <Widget>[
-        IconButton(
-          icon: const Icon(Icons.exit_to_app),
-          color: Colors.white,
-          onPressed: () {
-            signOutDialog(context);
-
-          },
-        ),
-      ],
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.exit_to_app),
+            color: Colors.white,
+            onPressed: () {
+              signOutDialog(context);
+            },
+          ),
+        ],
       ),
-         body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+      body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
         stream: FirebaseFirestore.instance
             .collection('users')
             .doc(firebaseUser.uid)
@@ -76,17 +73,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   // first and last name
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text("Hello, $fName $lName",
+                    child: Text(
+                      "Hello, $fName $lName",
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20.0,
                       ),
                     ),
                   ),
-                // email
+                  // email
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text("Email: $email",
+                    child: Text(
+                      "Email: $email",
                       style: const TextStyle(
                         fontSize: 14.0,
                       ),
@@ -95,7 +94,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   // gender
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text("Gender: $gender",
+                    child: Text(
+                      "Gender: $gender",
                       style: const TextStyle(
                         fontSize: 14.0,
                       ),
@@ -104,25 +104,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   // date of birth
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text("Date of Birth: $dateOfBirth",
+                    child: Text(
+                      "Date of Birth: $dateOfBirth",
                       style: const TextStyle(
                         fontSize: 14.0,
                       ),
                     ),
                   ),
-               
-                 
                 ],
               ),
             ),
           );
         },
       ),
-      
     );
   }
 }
-
 
 void signOutDialog(BuildContext context) async {
   return showDialog(
@@ -136,7 +133,7 @@ void signOutDialog(BuildContext context) async {
               onPressed: () async {
                 AuthService.signOut();
                 Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) =>  LoginScreen()));
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
               },
               child: const Text("Yes."),
             ),

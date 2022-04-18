@@ -24,8 +24,7 @@ class _SelectStrengthFormScreenState extends State<SelectStrengthFormScreen> {
         child: Column(
           children: <Widget>[
             Container(
-              padding:
-                  const EdgeInsetsDirectional.only(top: 16, start: 16, end: 16),
+              padding: const EdgeInsets.all(16),
               child: const Text(
                 "What is the strenght and form of the med?",
                 style: TextStyle(

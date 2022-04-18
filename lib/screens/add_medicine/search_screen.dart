@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/screens/add_medicine/select_custom_form.dart';
 import 'package:project/screens/add_medicine/select_strength_form.dart';
 import 'package:project/utils/theme.dart';
 import 'package:project/apis/clinicaltables.dart';
@@ -44,8 +45,8 @@ class _SearchScreenState extends State<SearchScreen> {
         if (value[1].isEmpty) {
           setState(() {
             _display_names = [_searchController.text];
-            _strengths_and_forms = [""];
-            _rxcuis = [""];
+            _strengths_and_forms = [];
+            _rxcuis = [];
           });
         } else {
           setState(() {
@@ -100,7 +101,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 ? Container(
                     padding: const EdgeInsets.all(16),
                     child: const Text(
-                      "Start typing to search for a medication",
+                      "Start typing to and choose your med from the list",
                       style: TextStyle(
                         fontSize: 16,
                       ),
@@ -122,14 +123,23 @@ class _SearchScreenState extends State<SearchScreen> {
                       itemBuilder: (context, int index) {
                         return GestureDetector(
                           onTap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return SelectStrengthFormScreen(
-                                med_name: _display_names[index],
-                                forms: _strengths_and_forms[index],
-                                rxcuis: _rxcuis[index],
-                              );
-                            }));
+                            if (_rxcuis.isEmpty) {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return SelectCustomFormScreen(
+                                  med_name: _searchController.text,
+                                );
+                              }));
+                            } else {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return SelectStrengthFormScreen(
+                                  med_name: _display_names[index],
+                                  forms: _strengths_and_forms[index],
+                                  rxcuis: _rxcuis[index],
+                                );
+                              }));
+                            }
                           },
                           child: Container(
                             margin: const EdgeInsets.all(10.0),
@@ -153,6 +163,19 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                   ),
           ],
+        ),
+      ),
+      floatingActionButton: Visibility(
+        visible: !_emptyContent,
+        child: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return SelectCustomFormScreen(
+                med_name: _searchController.text,
+              );
+            }));
+          },
+          label: const Text('Custom'),
         ),
       ),
     );

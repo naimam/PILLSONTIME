@@ -10,6 +10,8 @@ abstract class AppColors {
   static const iconDark = Color(0xFFB1B3C1);
   static const textHighlight = secondary;
   static const cardLight = Color(0xFFF9FAFE);
+  static const white = Color(0xFFFFFFFF);
+  static const black = Color(0xFF000000);
 }
 
 abstract class _LightColors {
@@ -37,7 +39,7 @@ class AppTheme {
           titleTextStyle: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 17,
-            color: AppColors.textDark,
+            color: AppColors.white,
           ),
           systemOverlayStyle: SystemUiOverlayStyle.dark,
         ),
