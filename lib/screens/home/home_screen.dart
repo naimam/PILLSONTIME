@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/screens/add_medicine/search_screen.dart';
 import 'package:project/services/auth_service.dart';
 import 'package:project/utils/theme.dart';
 
@@ -18,7 +19,11 @@ class _HomeScreenState extends State<HomeScreen> {
       body: const Center(child: Text("Welcome home!")),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Add your onPressed code here!
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      const SearchScreen(title: "Add Medication")));
         },
         backgroundColor: AppColors.primary,
         child: const Icon(Icons.add),
