@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:project/screens/home_screen.dart';
+import 'package:project/screens/home/home_screen.dart';
 import 'package:project/services/database.dart';
 import 'package:project/utils/config.dart';
 import 'package:project/models/user.dart';
-import 'package:project/screens/additional_info_screen.dart';
+import 'package:project/screens/auth/additional_info_screen.dart';
 
 class AuthService {
   static final firebase.FirebaseAuth _firebaseAuth =
@@ -90,5 +90,6 @@ class AuthService {
 
   static Future<void> signOut() async {
     await _firebaseAuth.signOut();
+    
   }
 }
