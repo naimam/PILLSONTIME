@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
+import 'package:project/models/medicine.dart';
 import 'package:project/models/user.dart';
 
 class Database {
@@ -30,5 +31,22 @@ class Database {
       'dateOfBirth': user.dateOfBirth,
       'gender': user.gender
     });
+  }
+
+  static Future<String?> addMedicine(String uid, Medicine medicine) async {
+    try {
+      await _db.collection('users').doc(uid).collection('medicines').add({
+        'rxcui': medicine.rxcui,
+        'med_name': medicine.med_name,
+        'med_form_strength': medicine.med_form_strength,
+        'notes': medicine.notes,
+        'shape': medicine.shape,
+        'color': medicine.color,
+      }).then((result) {
+        return 'success';
+      });
+    } catch (e) {
+      return 'error';
+    }
   }
 }

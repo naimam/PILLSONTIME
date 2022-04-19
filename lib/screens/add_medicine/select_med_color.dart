@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:project/screens/add_medicine/enter_custom_strength.dart';
+import 'package:project/models/medicine.dart';
+import 'package:project/screens/add_medicine/add_notes_screen.dart';
 import 'package:project/utils/theme.dart';
 import 'package:project/models/med_options.dart';
 
@@ -103,8 +104,14 @@ class _SelectMedColorScreenState extends State<SelectMedColorScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return EnterCustomStrengthScreen(
-                med_name: widget.med_name, med_form: '');
+            return AddNotesScreen(
+                medicine: Medicine(
+              rxcui: widget.rxcui,
+              med_name: widget.med_name,
+              med_form_strength: widget.med_form_strength,
+              shape: widget.med_shape,
+              color: selectedIndex,
+            ));
           }));
         },
         label: const Text('Next'),

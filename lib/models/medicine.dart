@@ -21,10 +21,15 @@ class Medicine {
     );
   }
 
-  final String rxcui;
-  final String med_name;
-  final String med_form_strength;
-  final String notes;
-  final int shape;
-  final int color;
+  @override
+  String toString() {
+    return 'Medicine{rxcui: $rxcui, med_name: $med_name, med_form_strength: $med_form_strength, notes: $notes, shape: $shape, color: $color}';
+  }
+
+  String rxcui;
+  String med_name;
+  String med_form_strength;
+  String notes;
+  int shape;
+  int color;
 }
