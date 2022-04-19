@@ -13,20 +13,17 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
+        title: const Text('Alarms'),
         backgroundColor: AppColors.secondary,
       ),
       body: const Center(child: Text("Welcome home!")),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      const SearchScreen(title: "Add Medication")));
+              context, MaterialPageRoute(builder: (context) => SearchScreen()));
         },
         backgroundColor: AppColors.primary,
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add_alarm),
       ),
     );
   }

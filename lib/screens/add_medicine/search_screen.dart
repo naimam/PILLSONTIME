@@ -5,8 +5,6 @@ import 'package:project/utils/theme.dart';
 import 'package:project/apis/clinicaltables.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({required this.title});
-  final String title;
   @override
   State<SearchScreen> createState() => _SearchScreenState();
 }
@@ -67,7 +65,7 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: const Text("Add Medicine"),
         backgroundColor: AppColors.primary,
       ),
       body: SingleChildScrollView(

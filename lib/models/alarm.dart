@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Alarm {
   Alarm({
-    required this.id,
+    this.id = '',
     required this.name,
     this.instructions = 'N/A',
+    required this.med_ids,
     required this.dosage,
-    required this.medicine_ids,
     required this.start_time,
     this.end_time = null,
     required this.freq_num,
@@ -18,8 +18,8 @@ class Alarm {
       id: data.id,
       name: data['name'],
       instructions: data['instructions'],
+      med_ids: data['med_ids'],
       dosage: data['dosage'],
-      medicine_ids: data['medicine_ids'],
       start_time: data['start_time'].toDate(),
       end_time: data['end_time']?.toDate(),
       freq_num: data['freq_num'],
@@ -27,13 +27,13 @@ class Alarm {
     );
   }
 
-  final String id;
-  final String name;
-  final String instructions;
-  final List<String> dosage;
-  final List<String> medicine_ids;
-  final DateTime start_time;
-  final DateTime? end_time;
-  final int freq_num;
-  final String freq_unit;
+  String id;
+  String name;
+  String instructions;
+  List<String> med_ids;
+  List<String> dosage;
+  DateTime start_time;
+  DateTime? end_time;
+  int freq_num;
+  String freq_unit;
 }
