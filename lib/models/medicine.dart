@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Medicine {
   Medicine({
+    this.id = '',
     this.rxcui = 'N/A',
     required this.med_name,
     required this.med_form_strength,
@@ -12,6 +13,7 @@ class Medicine {
 
   factory Medicine.fromDocument(DocumentSnapshot data) {
     return Medicine(
+      id: data.id,
       rxcui: data['rxcui'],
       med_name: data['med_name'],
       med_form_strength: data['med_form_strength'],
@@ -26,6 +28,7 @@ class Medicine {
     return 'Medicine{rxcui: $rxcui, med_name: $med_name, med_form_strength: $med_form_strength, notes: $notes, shape: $shape, color: $color}';
   }
 
+  String id;
   String rxcui;
   String med_name;
   String med_form_strength;

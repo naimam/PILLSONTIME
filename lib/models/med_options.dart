@@ -53,3 +53,14 @@ abstract class MedColor {
     Color(0xffF5CBA7),
   ];
 }
+
+abstract class AlarmFreqUnit {
+  static const List = [
+    'Minute(s)',
+    'Hour(s)',
+    'Day(s)',
+    'Week(s) - 7 days',
+    'Month(s) - 30 days',
+    'Year(s) - 365 days',
+  ];
+}

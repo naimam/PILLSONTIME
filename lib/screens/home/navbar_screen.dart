@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:project/screens/home/medicines_screen.dart';
-import 'package:project/screens/home/home_screen.dart';
+import 'package:project/screens/home/alarms_screen.dart';
 import 'package:project/screens/home/profile_screen.dart';
 import 'package:project/services/auth_service.dart';
 import 'package:project/utils/theme.dart';
@@ -34,12 +34,12 @@ class _NavbarScreenState extends State<NavbarScreen> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.home,
+              Icons.alarm,
               // color: kGoodLightGray,
             ),
-            label: 'Home',
+            label: 'Alarms',
             activeIcon: Icon(
-              Icons.home,
+              Icons.alarm,
               // color: kGoodPurple,
               size: 36,
             ),
