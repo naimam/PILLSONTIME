@@ -9,12 +9,13 @@ class Medicine {
     this.notes = 'N/A',
     required this.shape,
     required this.color,
+    this.selected = false,
   });
 
   factory Medicine.fromDocument(DocumentSnapshot data) {
     return Medicine(
       id: data.id,
-      rxcui: data['rxcui'],
+      rxcui: data['rxcui'] == "" ? 'N/A' : data['rxcui'],
       med_name: data['med_name'],
       med_form_strength: data['med_form_strength'],
       notes: data['notes'],
@@ -35,4 +36,5 @@ class Medicine {
   String notes;
   int shape;
   int color;
+  bool selected;
 }

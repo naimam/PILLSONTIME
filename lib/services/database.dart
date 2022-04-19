@@ -52,8 +52,15 @@ class Database {
   }
 
   static Future<List<Medicine>> getMedicines(String uid) async {
-    final QuerySnapshot snapshot =
-        await _db.collection('users').doc(uid).collection('medicines').get();
+    final QuerySnapshot snapshot = await _db
+        .collection('users')
+        .doc(uid)
+        .collection('medicines')
+        .get()
+        .then((value) {
+      return value;
+    });
+
     return snapshot.docs.map((doc) => Medicine.fromDocument(doc)).toList();
   }
 
