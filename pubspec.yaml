@@ -46,6 +46,7 @@ dependencies:
   flutter_svg: ^1.0.3
   http: ^0.13.4
   chips_choice_null_safety: ^2.0.6
+  flutter_alarm_clock: ^0.0.1
 
 dev_dependencies:
   flutter_test:
