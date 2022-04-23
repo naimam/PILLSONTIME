@@ -69,6 +69,7 @@ class _FrequencyDurationScreenState extends State<FrequencyDurationScreen> {
     final auth.User firebaseUser = Provider.of<auth.User>(context);
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: !_isSuccess,
         title: const Text('Frequency and Duration'),
         backgroundColor: AppColors.tertiary,
         actions: <Widget>[
@@ -95,7 +96,7 @@ class _FrequencyDurationScreenState extends State<FrequencyDurationScreen> {
                 children: const <Widget>[
                   Icon(
                     Icons.check,
-                    color: Colors.green,
+                    color: AppColors.quaternary,
                     size: 100,
                   ),
                   SizedBox(height: 20),
@@ -104,7 +105,7 @@ class _FrequencyDurationScreenState extends State<FrequencyDurationScreen> {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Colors.green,
+                      color: AppColors.quaternary,
                     ),
                   ),
                 ],
@@ -221,6 +222,7 @@ class _FrequencyDurationScreenState extends State<FrequencyDurationScreen> {
                                   Row(
                                     children: [
                                       Expanded(
+                                        flex: 4,
                                         child: TextField(
                                           controller: _freq_num_controller,
                                           keyboardType: TextInputType.number,
@@ -252,6 +254,7 @@ class _FrequencyDurationScreenState extends State<FrequencyDurationScreen> {
                                       ),
                                       SizedBox(width: 10),
                                       Expanded(
+                                        flex: 6,
                                         child: DropdownButton<String>(
                                           value: _freq_unit,
                                           onChanged: (String? value) {

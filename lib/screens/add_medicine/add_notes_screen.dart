@@ -24,6 +24,7 @@ class _AddNotesScreenState extends State<AddNotesScreen> {
     Medicine medicine = widget.medicine;
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: !_isSuccess,
         title: Text(medicine.med_name + "  " + medicine.med_form_strength),
         backgroundColor: AppColors.primary,
         actions: <Widget>[
@@ -50,7 +51,7 @@ class _AddNotesScreenState extends State<AddNotesScreen> {
                 children: const <Widget>[
                   Icon(
                     Icons.check,
-                    color: Colors.green,
+                    color: AppColors.quaternary,
                     size: 100,
                   ),
                   SizedBox(height: 20),
@@ -59,7 +60,7 @@ class _AddNotesScreenState extends State<AddNotesScreen> {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Colors.green,
+                      color: AppColors.quaternary,
                     ),
                   ),
                 ],

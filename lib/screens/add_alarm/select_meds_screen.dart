@@ -131,11 +131,16 @@ class _SelectMedsScreenState extends State<SelectMedsScreen> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        _medicines[index].med_name +
-                                            " - " +
-                                            _medicines[index].med_form_strength,
+                                        _medicines[index].med_name,
                                         style: const TextStyle(
                                           fontSize: 16.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        _medicines[index].med_form_strength,
+                                        style: const TextStyle(
+                                          fontSize: 15.0,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -152,12 +157,13 @@ class _SelectMedsScreenState extends State<SelectMedsScreen> {
                                       child: Align(
                                     alignment: Alignment.centerRight,
                                     child: IconButton(
+                                      iconSize: 40,
                                       icon: Icon(
                                         _medicines[index].selected
                                             ? Icons.check_box_outlined
                                             : Icons.check_box_outline_blank,
                                         color: _medicines[index].selected
-                                            ? AppColors.textDark
+                                            ? AppColors.quaternary
                                             : Colors.grey,
                                       ),
                                       onPressed: () {

@@ -80,9 +80,14 @@ class _EnterDosagesScreenState extends State<EnterDosagesScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  _medicines[index].med_name +
-                                      " - " +
-                                      _medicines[index].med_form_strength,
+                                  _medicines[index].med_name,
+                                  style: const TextStyle(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  _medicines[index].med_form_strength,
                                   style: const TextStyle(
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.bold,
@@ -111,7 +116,7 @@ class _EnterDosagesScreenState extends State<EnterDosagesScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 16),
                         Column(
                           children: [
                             Row(
@@ -145,7 +150,7 @@ class _EnterDosagesScreenState extends State<EnterDosagesScreen> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(width: 10),
+                                const SizedBox(width: 10),
                                 Expanded(
                                   child: DropdownButton<String>(
                                     value: _dosages_unit[index],

@@ -6,6 +6,7 @@ abstract class AppColors {
   static const primary = Color(0xFFff52a1);
   static const secondary = Color(0xFF0087ff);
   static const tertiary = Color(0xFFffc107);
+  static const quaternary = Color(0xFF00cc60);
   static const textDark = Color(0xFF53585A);
   static const iconDark = Color(0xFFB1B3C1);
   static const textHighlight = secondary;
