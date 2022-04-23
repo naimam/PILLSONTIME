@@ -6,6 +6,7 @@ import 'package:project/screens/add_alarm/select_meds_screen.dart';
 import 'package:project/utils/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:project/services/database.dart';
 
 
 import 'alarm_info_screen.dart';
@@ -97,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 trailing: 
                 IconButton(
                   icon: const Icon(Icons.delete),
-                  onPressed: () {},
+                  onPressed: () { deleteAlarmDialog(context, alarm); },
                 ),
                 onTap: () {
                   Navigator.push(
@@ -125,4 +126,36 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+// delete alarm function with confirmation dialog
+void deleteAlarmDialog(BuildContext context, Alarm alarm) {
+  // current user id
+  final auth.User firebaseUser = Provider.of<auth.User>(context, listen: false);
+  
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Delete alarm?'),
+        content: const Text('Are you sure you want to delete this alarm?'),
+        actions: <Widget>[
+          FlatButton(
+            child: const Text('Cancel'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          FlatButton(
+            child: const Text('Delete'),
+            onPressed: () {
+              Navigator.of(context).pop();
+              Database.deleteAlarm(firebaseUser.uid, alarm.id);
+              
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
+}
+

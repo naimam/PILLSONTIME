@@ -161,4 +161,7 @@ class Database {
       return 'error';
     }
   }
+  // delete alarm
+
 }
+
