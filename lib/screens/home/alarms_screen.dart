@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:project/models/alarm.dart';
 import 'package:project/screens/add_alarm/select_meds_screen.dart';
 import 'package:project/utils/theme.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +21,53 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('Alarms'),
         backgroundColor: AppColors.secondary,
       ),
-      body: const Center(child: Text("Welcome home!")),
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('users')
+            .doc(firebaseUser.uid)
+            .collection('alarms')
+            .snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.hasError) {
+            return const Center(
+              child: Text('Error'),
+            );
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          final List<DocumentSnapshot> docs = snapshot.data.docs;
+
+          if (docs.isEmpty) {
+            return const Center(
+              child: Text('No alarms'),
+            );
+          }
+
+          return ListView.builder(
+            itemCount: docs.length,
+            itemBuilder: (BuildContext context, int index) {
+              final DocumentSnapshot doc = docs[index];
+              Alarm alarm = Alarm.fromDocument(doc);
+
+              return Card(
+                  child: ListTile(
+                title: Text(alarm.id),
+                subtitle: Text(alarm.freq_unit),
+                trailing: IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: () {},
+                ),
+                onTap: () {},
+              ));
+            },
+          );
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
