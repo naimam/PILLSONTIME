@@ -47,8 +47,8 @@ class AlarmInfo extends StatelessWidget {
                   const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: CircleAvatar(
-                      radius: 50.0,
-                      backgroundImage: AssetImage('assets/medicine.png'),
+                      radius: 60.0,
+                      backgroundImage: AssetImage('assets/clockicon.png'),
                     ),
                   ),
                   Padding(
