@@ -6,6 +6,8 @@ import 'package:project/screens/add_alarm/select_meds_screen.dart';
 import 'package:project/utils/theme.dart';
 import 'package:provider/provider.dart';
 
+import 'alarm_info_screen.dart';
+
 class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -62,7 +64,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   icon: const Icon(Icons.delete),
                   onPressed: () {},
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const AlarmInfo()));
+                  
+                },
+                
               ));
             },
           );
