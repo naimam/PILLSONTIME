@@ -69,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
               if (alarm.freq_num == 0) {
                 freqSubtitle = 'Once at ' + startTime;
               } else {
-                freqSubtitle = 'Every ' + alarm.freq_num.toString() + ' ' + alarm.freq_unit + 'at ' + startTime + ' to ' + endTime;
+                freqSubtitle = 'Every ' + alarm.freq_num.toString() + ' ' + alarm.freq_unit + ' at ' + startTime + ' to ' + endTime;
               }
              
 
