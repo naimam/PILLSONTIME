@@ -55,11 +55,19 @@ class _HomeScreenState extends State<HomeScreen> {
             itemBuilder: (BuildContext context, int index) {
               final DocumentSnapshot doc = docs[index];
               Alarm alarm = Alarm.fromDocument(doc);
+              String freqSubtitle = ' ';
+              if (alarm.freq_num == 0) {
+                freqSubtitle = 'Once';
+              } else {
+                freqSubtitle = 'Every ' + alarm.freq_num.toString() + ' ' + alarm.freq_unit;
+              }
+
 
               return Card(
                   child: ListTile(
-                title: Text(alarm.id),
-                subtitle: Text(alarm.freq_unit),
+                title: Text(alarm.name),
+                subtitle: Text(alarm.instructions + "\n" + freqSubtitle),
+                
                 trailing: IconButton(
                   icon: const Icon(Icons.delete),
                   onPressed: () {},
@@ -67,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const AlarmInfo()));
+                    MaterialPageRoute(builder: (context) =>  AlarmInfo(alarm: alarm)));
                   
                 },
                 
