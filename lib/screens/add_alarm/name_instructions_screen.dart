@@ -19,6 +19,20 @@ class _NameIntructionsScreenState extends State<NameIntructionsScreen> {
   late final List<String> _dosages;
   final _nameController = TextEditingController();
   final _instructionsController = TextEditingController();
+  bool _showNext = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController.addListener(_onNameChanged);
+  }
+
+  @override
+  void dispose() {
+    _nameController.removeListener(_onNameChanged);
+    _nameController.dispose();
+    super.dispose();
+  }
 
   _NameIntructionsScreenState({required med_ids, required dosages}) {
     _med_ids = med_ids;
@@ -94,20 +108,35 @@ class _NameIntructionsScreenState extends State<NameIntructionsScreen> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: AppColors.tertiary,
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return FrequencyDurationScreen(
-              med_ids: _med_ids,
-              dosages: _dosages,
-              name: _nameController.text,
-              instructions: _instructionsController.text,
-            );
-          }));
-        },
-        label: const Text('Next'),
+      floatingActionButton: Visibility(
+        child: FloatingActionButton.extended(
+          backgroundColor: AppColors.tertiary,
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return FrequencyDurationScreen(
+                med_ids: _med_ids,
+                dosages: _dosages,
+                name: _nameController.text,
+                instructions: _instructionsController.text,
+              );
+            }));
+          },
+          label: const Text('Next'),
+        ),
+        visible: _nameController.text.replaceAll(' ', '') != '',
       ),
     );
+  }
+
+  void _onNameChanged() {
+    if (_nameController.text.replaceAll(' ', '') != '') {
+      setState(() {
+        _showNext = true;
+      });
+    } else {
+      setState(() {
+        _showNext = false;
+      });
+    }
   }
 }

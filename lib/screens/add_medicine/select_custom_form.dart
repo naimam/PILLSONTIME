@@ -29,7 +29,7 @@ class _SelectCustomFormScreenState extends State<SelectCustomFormScreen> {
   }
 
   _onInputChanged() {
-    if (_otherController.text != "") {
+    if (_otherController.text.replaceAll(' ', '') != '') {
       setState(() {
         _showNext = true;
       });

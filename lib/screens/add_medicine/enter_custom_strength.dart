@@ -33,7 +33,7 @@ class _EnterCustomStrengthScreenState extends State<EnterCustomStrengthScreen> {
   }
 
   _onInputChanged() {
-    if (_StrengthController.text != "") {
+    if (_StrengthController.text.replaceAll(' ', '') != '') {
       setState(() {
         _showNext = true;
       });
