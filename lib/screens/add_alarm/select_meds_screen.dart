@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:project/models/med_options.dart';
 import 'package:project/models/medicine.dart';
+import 'package:project/screens/add_alarm/enter_dosages_screent.dart';
 import 'package:project/services/database.dart';
 import 'package:project/utils/theme.dart';
 
@@ -15,7 +16,7 @@ class SelectMedsScreen extends StatefulWidget {
 }
 
 class _SelectMedsScreenState extends State<SelectMedsScreen> {
-  List<String> _selected_meds = [];
+  List<Medicine> _selected_meds = [];
   List<Medicine> _medicines = [];
   bool _emptyList = false;
   bool _isLoading = false;
@@ -128,13 +129,12 @@ class _SelectMedsScreenState extends State<SelectMedsScreen> {
                                   if (_medicines[index].selected) {
                                     setState(() {
                                       _medicines[index].selected = false;
-                                      _selected_meds
-                                          .remove(_medicines[index].id);
+                                      _selected_meds.remove(_medicines[index]);
                                     });
                                   } else {
                                     setState(() {
                                       _medicines[index].selected = true;
-                                      _selected_meds.add(_medicines[index].id);
+                                      _selected_meds.add(_medicines[index]);
                                     });
                                   }
                                 },
@@ -173,8 +173,9 @@ class _SelectMedsScreenState extends State<SelectMedsScreen> {
         visible: _selected_meds.isNotEmpty,
         child: FloatingActionButton.extended(
           onPressed: () {
-            //TODO direct to add dosage screen
-            print(_selected_meds);
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return EnterDosagesScreen(medicines: _selected_meds);
+            }));
           },
           label: const Text('Next'),
         ),

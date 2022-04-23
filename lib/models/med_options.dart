@@ -65,3 +65,18 @@ abstract class AlarmFreqUnit {
     'Year(s) - 365 days',
   ];
 }
+
+abstract class DosageUnit {
+  static const List = [
+    'Pill(s)',
+    'Application(s)',
+    'Tablet(s)',
+    'Capsule(s)',
+    'Vial(s)',
+    'Ampule(s)',
+    'Syringe(s)',
+    'Cartridge(s)',
+    'Container(s)',
+    'Applicator(s)',
+  ];
+}
