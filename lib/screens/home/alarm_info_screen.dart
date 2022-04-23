@@ -5,6 +5,7 @@ import 'package:project/models/alarm.dart';
 import 'package:project/screens/add_alarm/select_meds_screen.dart';
 import 'package:project/utils/theme.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class AlarmInfo extends StatelessWidget {
   final Alarm alarm;

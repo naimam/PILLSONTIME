@@ -5,6 +5,8 @@ import 'package:project/models/alarm.dart';
 import 'package:project/screens/add_alarm/select_meds_screen.dart';
 import 'package:project/utils/theme.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
+
 
 import 'alarm_info_screen.dart';
 
@@ -55,30 +57,45 @@ class _HomeScreenState extends State<HomeScreen> {
             itemBuilder: (BuildContext context, int index) {
               final DocumentSnapshot doc = docs[index];
               Alarm alarm = Alarm.fromDocument(doc);
-              String freqSubtitle = ' ';
-              DateTime start_time = alarm.start_time;
-              DateTime? end_time = alarm.end_time;
+              String freqTitle = ' ';
+              String timeTitle = ' ';
+              DateTime startTime = alarm.start_time;
+              DateTime? endTime = alarm.end_time;
+              final FormatterTime = DateFormat.jm();
+              final FormatterDate = DateFormat.yMMMMd('en_US');
 
-              // change date format to be more readable: kk:mm:a dd-mm
-              String startTime = "${start_time.hour}:${start_time.minute.toString().padLeft(2, '0')} ${start_time.hour > 12 ? 'PM' : 'AM'} ${start_time.day.toString().padLeft(2, '0')}-${start_time.month.toString().padLeft(2, '0')}-${start_time.year}";
-              String endTime = " ";
-              if (end_time != null) {
-                endTime = "${end_time.hour}:${end_time.minute.toString().padLeft(2, '0')} ${end_time.hour > 12 ? 'PM' : 'AM'} ${end_time.day.toString().padLeft(2, '0')}-${end_time.month.toString().padLeft(2, '0')}-${end_time.year}";
+              String startTimeHour = FormatterTime.format(startTime);
+              String endTimeHour = ' ';
+              if (endTime != null) {
+                endTimeHour = FormatterTime.format(endTime);
+              }
+              String startTimeDate = FormatterDate.format(startTime);
+              String endTimeDate = ' ';
+              if (endTime != null) {
+                endTimeDate = FormatterDate.format(endTime);
+              }
+
+
+              if (alarm.freq_num == 0) {
+                freqTitle= ' once at ';
+              } else {
+                freqTitle = ' every ' + alarm.freq_num.toString() + ' ' + alarm.freq_unit + ' at ';
               }
 
               if (alarm.freq_num == 0) {
-                freqSubtitle = 'Once at ' + startTime;
+                timeTitle = startTimeHour;
               } else {
-                freqSubtitle = 'Every ' + alarm.freq_num.toString() + ' ' + alarm.freq_unit + ' at ' + startTime + ' to ' + endTime;
+                timeTitle = startTimeHour + ' to ' + endTimeHour;
               }
-             
+
 
               return Card(
-                  child: ListTile(
-                title: Text(alarm.name),
-                subtitle: Text(alarm.instructions + "\n" + freqSubtitle),
+                child: ListTile(
+                title: Text(alarm.name + freqTitle),
+                subtitle: Text(timeTitle, style: const TextStyle(fontSize: 23.0, fontWeight: FontWeight.bold)),
                 
-                trailing: IconButton(
+                trailing: 
+                IconButton(
                   icon: const Icon(Icons.delete),
                   onPressed: () {},
                 ),
@@ -88,6 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     MaterialPageRoute(builder: (context) =>  AlarmInfo(alarm: alarm)));
                   
                 },
+                
                 
               ));
             },
