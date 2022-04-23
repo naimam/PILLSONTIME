@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:project/models/med_options.dart';
 import 'package:project/models/medicine.dart';
-import 'package:project/services/database.dart';
+import 'package:project/screens/add_alarm/name_instructions_screen.dart';
 import 'package:project/utils/theme.dart';
 
 class EnterDosagesScreen extends StatefulWidget {
@@ -190,11 +190,20 @@ class _EnterDosagesScreenState extends State<EnterDosagesScreen> {
             });
             final List<String> med_ids =
                 _medicines.map((med) => med.id).toList();
+            List<String> input_dosages =
+                List<String>.filled(_dosages.length, '');
+            for (int i = 0; i < _dosages.length; i++) {
+              input_dosages[i] =
+                  _dosages[i].toString() + ' ' + _dosages_unit[i];
+            }
             setState(() {
               _isLoading = false;
             });
-            print(med_ids);
-            //TODO direct name_instructions screen
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => NameIntructionsScreen(
+                        med_ids: med_ids, dosages: input_dosages)));
           },
           label: const Text('Next'),
         ),

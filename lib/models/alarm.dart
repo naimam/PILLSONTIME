@@ -11,6 +11,7 @@ class Alarm {
     this.end_time = null,
     required this.freq_num,
     required this.freq_unit,
+    required this.is_repeating,
   });
 
   factory Alarm.fromDocument(DocumentSnapshot data) {
@@ -24,6 +25,7 @@ class Alarm {
       end_time: data['end_time']?.toDate(),
       freq_num: data['freq_num'],
       freq_unit: data['freq_unit'],
+      is_repeating: data['is_repeating'],
     );
   }
 
@@ -36,4 +38,5 @@ class Alarm {
   DateTime? end_time;
   int freq_num;
   String freq_unit;
+  bool is_repeating;
 }
