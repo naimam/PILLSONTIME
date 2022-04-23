@@ -178,12 +178,16 @@ class _EnterDosagesScreenState extends State<EnterDosagesScreen> {
                 },
               ),
             ),
+            const SizedBox(
+              height: 80,
+            ),
           ],
         ),
       ),
       floatingActionButton: Visibility(
         visible: !_dosages.contains(0),
         child: FloatingActionButton.extended(
+          backgroundColor: AppColors.tertiary,
           onPressed: () {
             setState(() {
               _isLoading = true;

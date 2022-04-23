@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project/utils/theme.dart';
 
+import 'frequency_duration_screen.dart';
+
 class NameIntructionsScreen extends StatefulWidget {
   NameIntructionsScreen(
       {Key? key, required this.med_ids, required this.dosages})
@@ -93,8 +95,16 @@ class _NameIntructionsScreenState extends State<NameIntructionsScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: AppColors.tertiary,
         onPressed: () {
-          //TODO direct frequency screen
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return FrequencyDurationScreen(
+              med_ids: _med_ids,
+              dosages: _dosages,
+              name: _nameController.text,
+              instructions: _instructionsController.text,
+            );
+          }));
         },
         label: const Text('Next'),
       ),
