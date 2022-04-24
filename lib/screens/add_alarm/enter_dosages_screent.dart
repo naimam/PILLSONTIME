@@ -200,6 +200,8 @@ class _EnterDosagesScreenState extends State<EnterDosagesScreen> {
             });
             final List<String> med_ids =
                 _medicines.map((med) => med.id).toList();
+            final List<String> med_names =
+                _medicines.map((med) => med.med_name).toList();
             List<String> input_dosages =
                 List<String>.filled(_dosages.length, '');
             for (int i = 0; i < _dosages.length; i++) {
@@ -213,7 +215,9 @@ class _EnterDosagesScreenState extends State<EnterDosagesScreen> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => NameIntructionsScreen(
-                        med_ids: med_ids, dosages: input_dosages)));
+                        med_ids: med_ids,
+                        med_names: med_names,
+                        dosages: input_dosages)));
           },
           label: const Text('Next'),
         ),

@@ -12,17 +12,20 @@ class FrequencyDurationScreen extends StatefulWidget {
   FrequencyDurationScreen(
       {Key? key,
       required this.med_ids,
+      required this.med_names,
       required this.dosages,
       required this.name,
       required this.instructions})
       : super(key: key);
   final List<String> med_ids;
+  final List<String> med_names;
   final List<String> dosages;
   final String name;
   final String instructions;
   @override
   State<FrequencyDurationScreen> createState() => _FrequencyDurationScreenState(
       med_ids: med_ids,
+      med_names: med_names,
       dosages: dosages,
       name: name,
       instructions: instructions);
@@ -31,6 +34,7 @@ class FrequencyDurationScreen extends StatefulWidget {
 class _FrequencyDurationScreenState extends State<FrequencyDurationScreen> {
   late final List<String> _med_ids;
   late final List<String> _dosages;
+  late final List<String> _med_names;
   late final String _name;
   late final String _instructions;
   bool _isLoading = false;
@@ -55,10 +59,12 @@ class _FrequencyDurationScreenState extends State<FrequencyDurationScreen> {
 
   _FrequencyDurationScreenState(
       {required med_ids,
+      required med_names,
       required dosages,
       required name,
       required instructions}) {
     _med_ids = med_ids;
+    _med_names = med_names;
     _dosages = dosages;
     _name = name;
     _instructions = instructions;
@@ -383,6 +389,7 @@ class _FrequencyDurationScreenState extends State<FrequencyDurationScreen> {
                 name: _name,
                 instructions: _instructions,
                 med_ids: _med_ids,
+                med_names: _med_names,
                 dosage: _dosages,
                 start_time: startDate,
                 end_time: null,
@@ -394,6 +401,7 @@ class _FrequencyDurationScreenState extends State<FrequencyDurationScreen> {
                 name: _name,
                 instructions: _instructions,
                 med_ids: _med_ids,
+                med_names: _med_names,
                 dosage: _dosages,
                 start_time: startDate,
                 end_time: endDate,

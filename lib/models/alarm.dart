@@ -6,6 +6,7 @@ class Alarm {
     required this.name,
     this.instructions = 'N/A',
     required this.med_ids,
+    required this.med_names,
     required this.dosage,
     required this.start_time,
     this.end_time = null,
@@ -19,6 +20,7 @@ class Alarm {
       name: data['name'],
       instructions: data['instructions'],
       med_ids: List<String>.from(data['med_ids']),
+      med_names: List<String>.from(data['med_names']),
       dosage: List<String>.from(data['dosage']),
       start_time: data['start_time'].toDate(),
       end_time: data['end_time']?.toDate(),
@@ -31,6 +33,7 @@ class Alarm {
   String name;
   String instructions;
   List<String> med_ids;
+  List<String> med_names;
   List<String> dosage;
   DateTime start_time;
   DateTime? end_time;

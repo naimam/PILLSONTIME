@@ -5,17 +5,22 @@ import 'frequency_duration_screen.dart';
 
 class NameIntructionsScreen extends StatefulWidget {
   NameIntructionsScreen(
-      {Key? key, required this.med_ids, required this.dosages})
+      {Key? key,
+      required this.med_ids,
+      required this.med_names,
+      required this.dosages})
       : super(key: key);
   final List<String> med_ids;
+  final List<String> med_names;
   final List<String> dosages;
   @override
-  State<NameIntructionsScreen> createState() =>
-      _NameIntructionsScreenState(med_ids: med_ids, dosages: dosages);
+  State<NameIntructionsScreen> createState() => _NameIntructionsScreenState(
+      med_ids: med_ids, med_names: med_names, dosages: dosages);
 }
 
 class _NameIntructionsScreenState extends State<NameIntructionsScreen> {
   late final List<String> _med_ids;
+  late final List<String> _med_names;
   late final List<String> _dosages;
   final _nameController = TextEditingController();
   final _instructionsController = TextEditingController();
@@ -34,8 +39,10 @@ class _NameIntructionsScreenState extends State<NameIntructionsScreen> {
     super.dispose();
   }
 
-  _NameIntructionsScreenState({required med_ids, required dosages}) {
+  _NameIntructionsScreenState(
+      {required med_ids, required med_names, required dosages}) {
     _med_ids = med_ids;
+    _med_names = med_names;
     _dosages = dosages;
   }
 
@@ -115,6 +122,7 @@ class _NameIntructionsScreenState extends State<NameIntructionsScreen> {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return FrequencyDurationScreen(
                 med_ids: _med_ids,
+                med_names: _med_names,
                 dosages: _dosages,
                 name: _nameController.text,
                 instructions: _instructionsController.text,
