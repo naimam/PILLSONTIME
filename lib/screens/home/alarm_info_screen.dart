@@ -2,19 +2,24 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:project/models/alarm.dart';
+import 'package:project/models/medicine.dart';
 import 'package:project/screens/add_alarm/select_meds_screen.dart';
+import 'package:project/services/database.dart';
 import 'package:project/utils/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
 class AlarmInfo extends StatelessWidget {
-  final Alarm alarm;
+  final Alarm alarm; 
 
 
 
   const AlarmInfo({Key? key, required this.alarm}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final auth.User firebaseUser = Provider.of<auth.User>(context);
+    final String uid = firebaseUser.uid;
+
 
     DateTime start_time = alarm.start_time;
     DateTime? end_time = alarm.end_time;
@@ -32,6 +37,7 @@ class AlarmInfo extends StatelessWidget {
     
 
 
+      Future<Medicine> db;
       return Scaffold(
       appBar: AppBar(
         title: Text(alarm.name),
@@ -80,6 +86,7 @@ class AlarmInfo extends StatelessWidget {
                     ),
                 
                     for ( int i = 0; i < alarm.med_ids.length; i++)
+
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(alarm.med_ids[i] + ": " + alarm.dosage[i],
@@ -118,6 +125,7 @@ class AlarmInfo extends StatelessWidget {
       
       
     );
+
 
   }
 }

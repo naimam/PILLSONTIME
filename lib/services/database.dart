@@ -161,7 +161,21 @@ class Database {
       return 'error';
     }
   }
-  // delete alarm
 
+  // get user medicine info from id
+  static Future<Medicine> getMedicine(String uid, String id) async {
+    final DocumentSnapshot snapshot = await _db
+        .collection('users')
+        .doc(uid)
+        .collection('medicines')
+        .doc(id)
+        .get()
+        .then((value) {
+      return value;
+      print(value);
+    }); 
+    return Medicine.fromDocument(snapshot);
+
+  }
 }
 
