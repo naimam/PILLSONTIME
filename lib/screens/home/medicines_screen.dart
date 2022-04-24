@@ -70,7 +70,9 @@ class _MedicinesScreenState extends State<MedicinesScreen> {
               height: 100,
             ),
             title: Text(doc['med_name']),
-            subtitle: Text(doc['rxcui'])))
+            subtitle: Text('''
+${doc['rxcui']}
+${doc['med_form_strength']}''')))
         .toList();
   }
 }
