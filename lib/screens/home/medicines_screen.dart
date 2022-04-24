@@ -30,28 +30,21 @@ class _MedicinesScreenState extends State<MedicinesScreen> {
         title: const Text('Medicines'),
         backgroundColor: AppColors.secondary,
       ),
-      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+      body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('users')
               .doc(firebaseUser.uid)
               .collection('medicines')
               .snapshots(),
-          builder: (context, snapshot) {
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
             }
-            var userDocument = snapshot.data as dynamic;
-            medRx = userDocument!['rxcui'];
-            medName = userDocument['med_name'];
-            medStrength = userDocument['med_form_strength'];
-            medNotes = userDocument['notes'];
-            medShape = userDocument['shape'];
-            medColor = userDocument['color'];
-
-            return const Center(
-              child: CircularProgressIndicator(),
+            return ListView(
+              children: getMedicines(snapshot),
             );
           }),
       floatingActionButton: FloatingActionButton(
@@ -63,5 +56,12 @@ class _MedicinesScreenState extends State<MedicinesScreen> {
         child: const Icon(Icons.add),
       ),
     );
+  }
+
+  getMedicines(snapshot) {
+    return snapshot.data.docs
+        .map<Widget>((doc) => ListTile(
+            title: Text(doc['med_name']), subtitle: Text(doc['rxcui'])))
+        .toList();
   }
 }
