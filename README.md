@@ -1,16 +1,56 @@
-# project
+<div id="top"></div>
 
-A new Flutter project.
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/naimam/MOBILEAPPROJECT">
+    <img src="assets/medicine.png" alt="Logo" width="100" height="100">
+  </a>
 
-## Getting Started
+<h1 align="center">Pills on Time</h1>
+</div>
+
+
+
+
+<!-- ABOUT THE PROJECT -->
+## Decription
+
+## Features
+
+## Built With
+
+* [Flutter](https://flutter.dev/)
+* [Firebase](https://firebase.google.com/)
+
+
+## To Launch App
 
 This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+### :computer:WEB
+```
+flutter run -d <broswer> --web-renderer html --web-hostname localhost --web-port 5000
+```
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+### :iphone:MOBILE(Android)
+launch emulator the run:
+```
+flutter run -d <emulator name>
+```
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+<!-- CONTACT -->
+## Members
+
+Thu Vo 
+  
+Naima Mohamed 
+
+Aaron Reyes
+
+Piyush Dahiya 
+
+
+
+
