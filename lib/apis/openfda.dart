@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 // Future<void> main() async {
 //   String set_id = 'f22635fe-821d-4cde-aa12-419f8b53db81';
 //   OpenFDA.getDrugLabel(set_id).then((value) {
-//     print(value['effective_time']);
+//     print(value['brand_name']);
 //   });
 // }
 
@@ -32,6 +32,7 @@ class OpenFDA {
             map['results'][0]["dosage_and_administration"][0];
         result["effective_time"] =
             map['results'][0]["effective_time"]; //milliseconds
+        result["brand_name"] = map['results'][0]["openfda"]["brand_name"][0];
         return result;
       }
     } else {
