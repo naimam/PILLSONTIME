@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:project/screens/add_medicine/search_screen.dart';
 import 'package:project/services/auth_service.dart';
 import 'package:project/utils/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
+
+import '../../models/med_options.dart';
 
 class MedicinesScreen extends StatefulWidget {
   const MedicinesScreen({Key? key}) : super(key: key);
@@ -61,7 +64,13 @@ class _MedicinesScreenState extends State<MedicinesScreen> {
   getMedicines(snapshot) {
     return snapshot.data.docs
         .map<Widget>((doc) => ListTile(
-            title: Text(doc['med_name']), subtitle: Text(doc['rxcui'])))
+            leading: SvgPicture.asset(
+              "assets/pill-shape/0${doc['shape']}.svg",
+              color: MedColor.List[doc['color']],
+              height: 100,
+            ),
+            title: Text(doc['med_name']),
+            subtitle: Text(doc['rxcui'])))
         .toList();
   }
 }
