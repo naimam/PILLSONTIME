@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:project/models/medicine.dart';
 import 'package:project/screens/add_medicine/search_screen.dart';
+import 'package:project/screens/home/med_info_screen.dart';
 import 'package:project/services/auth_service.dart';
+import 'package:project/services/database.dart';
 import 'package:project/utils/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -40,14 +43,15 @@ class _MedicinesScreenState extends State<MedicinesScreen> {
               .collection('medicines')
               .snapshots(),
           builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshots) {
+            if (snapshots.connectionState == ConnectionState.waiting) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
             }
             return ListView(
-              children: getMedicines(snapshot),
+              physics: NeverScrollableScrollPhysics(),
+              children: getMedicines(snapshots, firebaseUser.uid),
             );
           }),
       floatingActionButton: FloatingActionButton(
@@ -61,18 +65,67 @@ class _MedicinesScreenState extends State<MedicinesScreen> {
     );
   }
 
-  getMedicines(snapshot) {
-    return snapshot.data.docs
-        .map<Widget>((doc) => ListTile(
+  getMedicines(AsyncSnapshot<QuerySnapshot> snapshots, uid) {
+    return snapshots.data!.docs.map((DocumentSnapshot doc) {
+      Medicine med = Medicine.fromDocument(doc);
+      return Card(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: ListTile(
             leading: SvgPicture.asset(
-              "assets/pill-shape/0${doc['shape']}.svg",
-              color: MedColor.List[doc['color']],
+              "assets/pill-shape/${(med.shape).toString().padLeft(2, '0')}.svg",
+              color: MedColor.List[med.color],
               height: 100,
             ),
-            title: Text(doc['med_name']),
-            subtitle: Text('''
-${doc['rxcui']}
-${doc['med_form_strength']}''')))
-        .toList();
+            title: Text(med.med_name,
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            subtitle: Text('${med.med_form_strength} \nrxcui: ${med.rxcui}',
+                style: const TextStyle(fontSize: 14)),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MedInfo(
+                          med: med, med_id: '', med_name: '', uid: uid)));
+            },
+            trailing: IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: () {
+                deleteMedDialog(context, med, uid);
+              },
+            ),
+          ),
+        ),
+      );
+    }).toList();
+  }
+
+  void deleteMedDialog(BuildContext context, Medicine med, String uid) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Delete medication?'),
+          content:
+              const Text('Are you sure you want to delete this medication?'),
+          actions: <Widget>[
+            FlatButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: const Text('Delete'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Database.deleteMedicine(uid, med.id);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

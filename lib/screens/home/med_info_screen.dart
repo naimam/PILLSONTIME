@@ -41,7 +41,7 @@ class _MedInfoState extends State<MedInfo> {
   void initState() {
     super.initState();
     if (med != null) {
-      med_name = med['med_name'];
+      med_name = med.med_name;
     }
   }
 
@@ -67,11 +67,17 @@ class _MedInfoState extends State<MedInfo> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
+                            const Icon(Icons.error,
+                                size: 100, color: AppColors.primary),
                             Padding(
                               padding: EdgeInsets.all(8.0),
                               child: Text(
-                                '${snapshot.error}',
+                                snapshot.error.toString().contains(
+                                        'DocumentSnapshotPlatform which does not exist')
+                                    ? 'Look like the medicine has been deleted'
+                                    : '${snapshot.error}',
                                 style: TextStyle(fontSize: 24),
+                                textAlign: TextAlign.center,
                               ),
                             )
                           ]);

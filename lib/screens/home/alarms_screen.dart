@@ -132,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         trailing: IconButton(
                           icon: const Icon(Icons.delete),
                           onPressed: () {
-                            deleteAlarmDialog(context, alarm);
+                            deleteAlarmDialog(context, alarm, firebaseUser.uid);
                           },
                         ),
                         onTap: () {
@@ -160,36 +160,32 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-// delete alarm function with confirmation dialog
-void deleteAlarmDialog(BuildContext context, Alarm alarm) {
-  // current user id
-  final auth.User firebaseUser = Provider.of<auth.User>(context, listen: false);
-  
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: const Text('Delete alarm?'),
-        content: const Text('Are you sure you want to delete this alarm?'),
-        actions: <Widget>[
-          FlatButton(
-            child: const Text('Cancel'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          FlatButton(
-            child: const Text('Delete'),
-            onPressed: () {
-              Navigator.of(context).pop();
-              Database.deleteAlarm(firebaseUser.uid, alarm.id);
-              
-            },
-          ),
-        ],
-      );
-    },
-  );
-}
-}
 
+// delete alarm function with confirmation dialog
+  void deleteAlarmDialog(BuildContext context, Alarm alarm, String uid) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Delete alarm?'),
+          content: const Text('Are you sure you want to delete this alarm?'),
+          actions: <Widget>[
+            FlatButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: const Text('Delete'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Database.deleteAlarm(uid, alarm.id);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+}

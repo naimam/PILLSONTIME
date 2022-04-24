@@ -174,10 +174,7 @@ class Database {
         .get()
         .then((value) {
       return value;
-      print(value);
-    }); 
+    });
     return Medicine.fromDocument(snapshot);
-
   }
 }
-

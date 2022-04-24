@@ -154,6 +154,9 @@ class _MedLabelScreenState extends State<MedLabelScreen> {
               children = <Widget>[
                 Center(
                   child: Column(children: [
+                    const SizedBox(
+                      height: 200,
+                    ),
                     const Icon(
                       Icons.error_outline,
                       color: Colors.red,
@@ -161,7 +164,7 @@ class _MedLabelScreenState extends State<MedLabelScreen> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 16),
-                      child: Text('Error: ${snapshot.error}'),
+                      child: Text(' ${snapshot.error}'),
                     )
                   ]),
                 )

@@ -2,21 +2,6 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-// Future<void> main() async {
-//   String rxcui = '596928';
-//   DailyMed.getSetId(rxcui).then((value) {
-//     print(value);
-//   }).catchError((error) {
-//     print(error);
-//   });
-//   String set_id = '00acd9e9-b26a-4626-949e-112ecd2f27e6';
-//   DailyMed.getImgUrl(set_id).then((value) {
-//     print(value);
-//   }).catchError((error) {
-//     print(error);
-//   });
-// }
-
 class DailyMed {
   static Future<String> getSetId(String rxcui) async {
     var url =

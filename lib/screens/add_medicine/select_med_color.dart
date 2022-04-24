@@ -60,6 +60,7 @@ class _SelectMedColorScreenState extends State<SelectMedColorScreen> {
                 color: AppColors.tertiary.withOpacity(0.25),
               ),
               child: GridView.builder(
+                  physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
