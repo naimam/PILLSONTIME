@@ -61,6 +61,7 @@ class _EnterDosagesScreenState extends State<EnterDosagesScreen> {
                 color: AppColors.primary.withOpacity(0.25),
               ),
               child: ListView.separated(
+                physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: _medicines.length,
                 itemBuilder: (context, int index) {

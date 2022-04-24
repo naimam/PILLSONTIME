@@ -116,6 +116,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       color: AppColors.tertiary.withOpacity(0.25),
                     ),
                     child: ListView.separated(
+                      physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: _display_names.length,
                       itemBuilder: (context, int index) {
