@@ -172,6 +172,9 @@ class _MedLabelScreenState extends State<MedLabelScreen> {
                   child: Column(
                     children: const [
                       SizedBox(
+                        height: 200,
+                      ),
+                      SizedBox(
                         width: 60,
                         height: 60,
                         child: CircularProgressIndicator(),
