@@ -107,6 +107,7 @@ class _SelectCustomFormScreenState extends State<SelectCustomFormScreen> {
                   color: AppColors.tertiary.withOpacity(0.25),
                 ),
                 child: ListView.separated(
+                  physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: MedForm.List.length,
                   itemBuilder: (context, int index) {

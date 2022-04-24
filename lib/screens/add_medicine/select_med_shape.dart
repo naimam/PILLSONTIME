@@ -49,6 +49,7 @@ class _SelectMedShapeScreenState extends State<SelectMedShapeScreen> {
                 color: AppColors.tertiary.withOpacity(0.25),
               ),
               child: ListView.separated(
+                physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: 16,
                 itemBuilder: (context, int index) {

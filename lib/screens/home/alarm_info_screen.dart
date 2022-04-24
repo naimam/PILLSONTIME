@@ -12,8 +12,6 @@ import 'package:intl/intl.dart';
 class AlarmInfo extends StatelessWidget {
   final Alarm alarm; 
 
-
-
   const AlarmInfo({Key? key, required this.alarm}) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -23,109 +21,170 @@ class AlarmInfo extends StatelessWidget {
 
     DateTime start_time = alarm.start_time;
     DateTime? end_time = alarm.end_time;
+    final DateFormat dateFormatter = DateFormat('kk:mm a - dd MMMM yyyy');
 
-    // change date format to be more readable: kk:mm:a dd-mm
-    String startTime = "${start_time.hour}:${start_time.minute.toString().padLeft(2, '0')} ${start_time.hour > 12 ? 'PM' : 'AM'} ${start_time.day.toString().padLeft(2, '0')}-${start_time.month.toString().padLeft(2, '0')}-${start_time.year}";
+    String startTime = dateFormatter.format(start_time);
     String endTime = " ";
     if (end_time != null) {
-      endTime = "${end_time.hour}:${end_time.minute.toString().padLeft(2, '0')} ${end_time.hour > 12 ? 'PM' : 'AM'} ${end_time.day.toString().padLeft(2, '0')}-${end_time.month.toString().padLeft(2, '0')}-${end_time.year}";
+      endTime = dateFormatter.format(end_time);
     }
 
-
-
-
-    
-
-
-      Future<Medicine> db;
-      return Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: Text(alarm.name),
         backgroundColor: AppColors.secondary,
       ),
-      body:  Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: CircleAvatar(
-                      radius: 60.0,
-                      backgroundImage: AssetImage('assets/clockicon.png'),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: CircleAvatar(
+                    radius: 60.0,
+                    backgroundImage: AssetImage('assets/clockicon.png'),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    alarm.name,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22.0,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      alarm.name,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                    title: const Text(
+                      "Instructions:",
+                      style: TextStyle(
                         fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
+                    subtitle: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          alarm.instructions == ''
+                              ? 'No instructions'
+                              : alarm.instructions,
+                          style: const TextStyle(
+                            fontSize: 15.0,
+                          ),
+                        )),
                   ),
-                  
+                ),
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: ListTile(
+                    title: const Text(
+                      "Medications: ",
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          for (int i = 0; i < alarm.med_names.length; i++)
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0, vertical: 4.0),
+                                    child: Text(
+                                      alarm.med_names[i],
+                                      style: const TextStyle(
+                                        fontSize: 15.0,
+                                        color: AppColors.black,
+                                      ),
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: (i % 3 == 0
+                                              ? AppColors.primary
+                                              : i % 2 == 0
+                                                  ? AppColors.secondary
+                                                  : AppColors.tertiary)
+                                          .withOpacity(.5),
+                                      border: Border.all(
+                                        color: AppColors.iconDark,
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(5.0),
+                                    ),
+                                  ),
+                                  Text(
+                                    ' - ${alarm.dosage[i]}',
+                                    style: const TextStyle(
+                                      fontSize: 15.0,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                        ]),
+                  ),
+                ),
+                if (alarm.freq_num != 0)
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text("Instructions: " + (alarm.instructions),
-                      style: const TextStyle(
-                        fontSize: 14.0,
-                      ),
-                    ),
-                  ),
-                     const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text("Medications: ",
-                        style: TextStyle(
-                          fontSize: 14.0,
-                        ),
-                      ),
-                    ),
-                
-                    for ( int i = 0; i < alarm.med_ids.length; i++)
-
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(alarm.med_ids[i] + ": " + alarm.dosage[i],
-                          style: const TextStyle(
-                            fontSize: 14.0,
+                    child: ListTile(
+                        title: const Text(
+                          "Frequency: ",
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      ),
-                 
-                  if (alarm.freq_num != 0)
-                    Padding(
+                        subtitle: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Text(
+                            "Every " +
+                                alarm.freq_num.toString() +
+                                " " +
+                                alarm.freq_unit +
+                                "\nFrom: " +
+                                startTime +
+                                "\nTo: " +
+                                endTime,
+                            style: const TextStyle(
+                              fontSize: 18.0,
+                            ),
+                          ),
+                        )),
+                  ),
+                if (alarm.freq_num == 0)
+                  Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text("Frequency: Every " + alarm.freq_num.toString() + " " + alarm.freq_unit + "\nFrom " + startTime+ " to " + "\n" + endTime ,
-                        style: const TextStyle(
-                          fontSize: 14.0,
+                      child: ListTile(
+                        title: const Text(
+                          "Frequency: ",
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                    ),
-                  
-                  if (alarm.freq_num == 0) 
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text("Frequency: Once at " + alarm.start_time.toString(),
-                        style: const TextStyle(
-                          fontSize: 14.0,
-                        ),
-                      ),
-                    ),                    
-                ]
-              ),
-            ),
-          ),
-
-          
-
-      
-      
+                        subtitle: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "Once at " + startTime + "\n" + endTime,
+                              style: const TextStyle(
+                                fontSize: 18.0,
+                              ),
+                            )),
+                      )),
+              ]),
+        ),
+      ),
     );
-
-
   }
 }

@@ -45,6 +45,7 @@ class _SelectStrengthFormScreenState extends State<SelectStrengthFormScreen> {
                 color: AppColors.tertiary.withOpacity(0.25),
               ),
               child: ListView.separated(
+                physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: widget.forms.length,
                 itemBuilder: (context, int index) {

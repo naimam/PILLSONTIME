@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:project/services/database.dart';
 
-
 import 'alarm_info_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -54,12 +53,13 @@ class _HomeScreenState extends State<HomeScreen> {
           }
 
           return ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
             itemCount: docs.length,
             itemBuilder: (BuildContext context, int index) {
               final DocumentSnapshot doc = docs[index];
               Alarm alarm = Alarm.fromDocument(doc);
               String freqTitle = ' ';
-              String timeTitle = ' ';
+              Widget timeWidget = Container();
               DateTime startTime = alarm.start_time;
               DateTime? endTime = alarm.end_time;
               final FormatterTime = DateFormat.jm();
@@ -76,39 +76,73 @@ class _HomeScreenState extends State<HomeScreen> {
                 endTimeDate = FormatterDate.format(endTime);
               }
 
-
               if (alarm.freq_num == 0) {
-                freqTitle= ' once at ';
+                freqTitle = ' once at ';
               } else {
-                freqTitle = ' every ' + alarm.freq_num.toString() + ' ' + alarm.freq_unit + ' at ';
+                freqTitle = ' every ' +
+                    alarm.freq_num.toString() +
+                    ' ' +
+                    alarm.freq_unit +
+                    ' at ';
               }
 
               if (alarm.freq_num == 0) {
-                timeTitle = startTimeHour;
+                timeWidget = Column(children: [
+                  Text(startTimeHour,
+                      style: const TextStyle(
+                          fontSize: 23.0, fontWeight: FontWeight.bold)),
+                  Text(startTimeDate, style: const TextStyle(fontSize: 16.0)),
+                ]);
               } else {
-                timeTitle = startTimeHour + ' to ' + endTimeHour;
+                timeWidget = Row(
+                  children: [
+                    Column(children: [
+                      Text(startTimeHour,
+                          style: const TextStyle(
+                              fontSize: 23.0, fontWeight: FontWeight.bold)),
+                      Text(startTimeDate,
+                          style: const TextStyle(fontSize: 16.0)),
+                    ]),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                      child: Text(
+                        'To',
+                        style: TextStyle(
+                            fontSize: 23.0, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Column(children: [
+                      Text(endTimeHour,
+                          style: const TextStyle(
+                              fontSize: 23.0, fontWeight: FontWeight.bold)),
+                      Text(endTimeDate, style: const TextStyle(fontSize: 16.0))
+                    ]),
+                  ],
+                );
               }
-
 
               return Card(
-                child: ListTile(
-                title: Text(alarm.name + freqTitle),
-                subtitle: Text(timeTitle, style: const TextStyle(fontSize: 23.0, fontWeight: FontWeight.bold)),
-                
-                trailing: 
-                IconButton(
-                  icon: const Icon(Icons.delete),
-                  onPressed: () { deleteAlarmDialog(context, alarm); },
-                ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) =>  AlarmInfo(alarm: alarm)));
-                  
-                },
-                
-                
-              ));
+                  child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: ListTile(
+                        title: Text(alarm.name + ': ' + freqTitle),
+                        subtitle: Padding(
+                            padding: const EdgeInsets.only(top: 14),
+                            child: timeWidget),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.delete),
+                          onPressed: () {
+                            deleteAlarmDialog(context, alarm);
+                          },
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      AlarmInfo(alarm: alarm)));
+                        },
+                      )));
             },
           );
         },
